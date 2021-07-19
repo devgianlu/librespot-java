@@ -279,6 +279,12 @@ public final class FileConfiguration {
         return val == null || val.isEmpty() ? null : val;
     }
 
+    @Nullable
+    private String clientToken() {
+        String val = config.get("clientToken");
+        return val == null || val.isEmpty() ? null : val;
+    }
+
     @NotNull
     private String deviceName() {
         return config.get("deviceName");
@@ -362,6 +368,7 @@ public final class FileConfiguration {
                 .setDeviceType(deviceType())
                 .setDeviceName(deviceName())
                 .setDeviceId(deviceId())
+                .setClientToken(clientToken())
                 .setListenPort(config.get("zeroconf.listenPort"));
 
         if (config.get("zeroconf.listenAll")) builder.setListenAll(true);
@@ -376,6 +383,7 @@ public final class FileConfiguration {
                 .setPreferredLocale(preferredLocale())
                 .setDeviceType(deviceType())
                 .setDeviceName(deviceName())
+                .setClientToken(clientToken())
                 .setDeviceId(deviceId());
 
         switch (authStrategy()) {

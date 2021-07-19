@@ -815,6 +815,7 @@ public final class Session implements Closeable {
         protected String deviceName = "librespot-java";
         protected Connect.DeviceType deviceType = Connect.DeviceType.COMPUTER;
         protected String preferredLocale = "en";
+        protected String clientToken = null;
 
         public AbsBuilder(@NotNull Configuration conf) {
             this.conf = conf;
@@ -867,6 +868,16 @@ public final class Session implements Closeable {
          */
         public T setDeviceType(@NotNull Connect.DeviceType deviceType) {
             this.deviceType = deviceType;
+            return (T) this;
+        }
+
+        /**
+         * Sets the client token. If empty, it will be retrieved.
+         *
+         * @param token A 168 bytes Base64 encoded string
+         */
+        public T setClientToken(@Nullable String token) {
+            this.clientToken = token;
             return (T) this;
         }
     }
@@ -1021,6 +1032,7 @@ public final class Session implements Closeable {
             Session session = new Session(new Inner(deviceType, deviceName, deviceId, preferredLocale, conf), ApResolver.getRandomAccesspoint());
             session.connect();
             session.authenticate(loginCredentials);
+            session.api().setClientToken(clientToken);
             return session;
         }
     }
